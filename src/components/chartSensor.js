@@ -6,7 +6,6 @@ import {
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
@@ -27,12 +26,14 @@ const ChartSensor = () => {
           const response = JSON.parse(message.body);
 
           if (response.data && Array.isArray(response.data)) {
-            const chartData = response.data.map((item) => ({
-              timestamp: item.timestamp,
-              humidity: item.humidity,
-              temperature: item.temperature,
-              light: item.light,
-            }));
+            const chartData = response.data
+              .map((item) => ({
+                timestamp: item.timestamp,
+                humidity: item.humidity,
+                temperature: item.temperature,
+                light: item.light,
+              }))
+              .reverse();
 
             setSensorData(chartData);
           }
@@ -52,25 +53,22 @@ const ChartSensor = () => {
   }, []);
 
   return (
-    <div className="w-[1070px] mt-[20px] h-[450px] bg-white rounded-3xl px-[32px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+    <div className="w-[1070px] pt-[20px] mt-[20px] h-[450px] bg-white rounded-3xl  shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
       <ResponsiveContainer width="100%" height={400}>
-        <BarChart
-          data={sensorData}
-          margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
+        <BarChart data={sensorData} margin={{ top: 40, right: 10, left: 10 }}>
           <XAxis
             dataKey="timestamp"
             tick={{ fontSize: 12 }}
-            angle={-45}
-            textAnchor="end"
+            interval={0}
+            angle={0}
+            textAnchor="middle"
           />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="humidity" fill="#8884d8" name="Độ ẩm" />
-          <Bar dataKey="temperature" fill="#82ca9d" name="Nhiệt độ" />
-          <Bar dataKey="light" fill="#ffc658" name="Ánh sáng" />
+          <Bar dataKey="humidity" fill="#2F8ED4" name="Độ ẩm" />
+          <Bar dataKey="temperature" fill="#E52020" name="Nhiệt độ" />
+          <Bar dataKey="light" fill="#FBA518" name="Ánh sáng" />
         </BarChart>
       </ResponsiveContainer>
     </div>
